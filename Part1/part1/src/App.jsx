@@ -1,9 +1,10 @@
 const App = () => {
+    const friends = [ 'Peter', 'Maya']
+  
     return (
       <div>
-        <p>Hello world</p>
+        <p>{friends}</p>
       </div>
     )
   }
-  
-  export default App
+export default App
