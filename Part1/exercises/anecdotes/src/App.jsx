@@ -14,10 +14,22 @@ const App = () => {
   const [points, setPoints] = useState({})
   const [selected, setSelected] = useState(0)
 
-  console.log(points)
-  const findNumVotes = () => {
-    return Object.hasOwn(points, selected) ? points[selected] : 0
+  const findNumVotes = (index) => {
+    return Object.hasOwn(points, index) ? points[index] : 0
   }
+
+  const findMostVoted = () => {
+    let [mostVotedCount, mostVotedIndex] = [0, 0]
+    for (let index = 0; index < anecdotes.length; ++index) {
+      let voteCount = findNumVotes(index)
+      if (voteCount > mostVotedCount) {
+        mostVotedCount = voteCount
+        mostVotedIndex = index
+      }
+    }
+    return mostVotedIndex
+  }
+  const mostVoted = findMostVoted()
 
   const handleVoting = () => {
     const newPoints = {
@@ -33,8 +45,9 @@ const App = () => {
 
   return (
     <>
+      <h1>Anecdote of the days</h1>
       <div>{anecdotes[selected]}</div>
-      <div>has {findNumVotes()} votes</div>
+      <div>has {findNumVotes(selected)} votes</div>
       <button onClick={handleVoting}>vote</button>
       <button
         onClick={() =>
@@ -43,6 +56,11 @@ const App = () => {
       >
         next anecdote
       </button>
+      <div>
+        <h1>Anecdote with most votes</h1>
+        <div>{anecdotes[mostVoted]}</div>
+        <div>has {findNumVotes(mostVoted)} votes</div>
+      </div>
     </>
   )
 }
