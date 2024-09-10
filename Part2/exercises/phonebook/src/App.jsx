@@ -1,4 +1,7 @@
 import { useState } from "react"
+import Filter from "./components/Filter"
+import PersonForm from "./components/PersonForm"
+import Persons from "./components/Persons"
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -43,54 +46,27 @@ const App = () => {
     setFilterPrompt(event.target.value)
   }
 
-  const displayedPeople = persons.filter((person) => {
-    return (
-      filterPrompt === "" ||
-      person.name.toLowerCase().search(filterPrompt.toLowerCase()) !== -1
-    )
-  })
-
-  // console.log(`${displayedPeople} ${filterPrompt}`)
   return (
     <div>
       <h2>Phonebook</h2>
-      {/* <div>debug: {filterPrompt}</div> */}
-      <div>
-        filter shown with:{" "}
-        <input
-          placeholder="gimme sth to filter"
-          value={filterPrompt}
-          onChange={handleFilterPromptChange}
-        ></input>
-      </div>
-      <form onSubmit={addPerson}>
-        <div>
-          name:{" "}
-          <input
-            placeholder="gimme a name"
-            value={newName}
-            onChange={handleNameChange}
-          />
-        </div>
-        <div>
-          number:{" "}
-          <input
-            placeholder="gimme a number"
-            value={newNumber}
-            onChange={handleNumberChange}
-          ></input>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
+      <Filter
+        filterPrompt={filterPrompt}
+        onChange={handleFilterPromptChange}
+      ></Filter>
 
-      {displayedPeople.map((person) => (
-        <p key={person.id}>
-          {person.name} {person.number}
-        </p>
-      ))}
+      <h3>Add a new person into our phonebook</h3>
+
+      <PersonForm
+        onSubmit={addPerson}
+        newName={newName}
+        newNumber={newNumber}
+        onNameChange={handleNameChange}
+        onNumberChange={handleNumberChange}
+      ></PersonForm>
+
+      <h3>Numbers</h3>
+
+      <Persons persons={persons} stringToFilter={filterPrompt}></Persons>
     </div>
   )
 }
